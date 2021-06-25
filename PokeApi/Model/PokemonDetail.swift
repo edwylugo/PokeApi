@@ -16,6 +16,7 @@ class PokemonDetail: Mappable {
     var order: Int? = 0
     var sprites: PokemonSprites?
     var stats: [PokemonStats]? = []
+    var types: [PokemonTypes]? = []
     
     func mapping(map: Map) {
         self.name <- map["name"]
@@ -23,5 +24,7 @@ class PokemonDetail: Mappable {
         self.order <- map["order"]
         self.sprites <- map["sprites"]
         self.stats <- map["stats"]
+        self.types <- map["types"]
     }
+    
 }

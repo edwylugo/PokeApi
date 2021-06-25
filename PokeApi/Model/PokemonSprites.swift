@@ -18,4 +18,5 @@ class PokemonSprites: Mappable {
         self.front_shiny <- map["front_shiny"]
         self.front_default <- map["front_default"]
     }
+    
 }
