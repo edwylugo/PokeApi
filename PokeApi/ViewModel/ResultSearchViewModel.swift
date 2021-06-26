@@ -1,18 +1,18 @@
 //
-//  PokemonsViewModel.swift
+//  ResultSearchViewModel.swift
 //  PokeApi
 //
-//  Created by Edwy Lugo on 25/06/21.
+//  Created by Edwy Lugo on 26/06/21.
 //
 
 import Foundation
 import UIKit
 
-protocol PokemonsNavigationProtocol: AnyObject {
-    func gotoPokemonDetails(pokemon_name: String)
+protocol ResultSearchNavigationProtocol: AnyObject {
+    func gotoPokemonDetail(pokemon_name: String)
 }
 
-protocol PokemonsViewModelProtocol {
+protocol ResultSearchViewModelProtocol {
     var error: Observable<Error?> { get }
     var isLoading: Observable<Bool> { get }
     var isPullRefresh: Observable<Bool> { get }
@@ -25,9 +25,9 @@ protocol PokemonsViewModelProtocol {
     func selectPokemonItemAt(indexPath: IndexPath)
 }
 
-struct PokemonsViewModel: PokemonsViewModelProtocol {
+struct ResultSearchViewModel: ResultSearchViewModelProtocol {
     
-    private var navigationDelegate: PokemonsNavigationProtocol
+    private var navigationDelegate: ResultSearchNavigationProtocol
     var error: Observable<Error?>
     var isLoading: Observable<Bool>
     var isPullRefresh: Observable<Bool>
@@ -35,7 +35,7 @@ struct PokemonsViewModel: PokemonsViewModelProtocol {
     var loadingMovies: Bool
     var currentPage: Int
     
-    init(navigationDelegate: PokemonsNavigationProtocol) {
+    init(navigationDelegate: ResultSearchNavigationProtocol) {
         self.navigationDelegate = navigationDelegate
         self.error = Observable(nil)
         self.isLoading = Observable(false)
@@ -73,8 +73,6 @@ struct PokemonsViewModel: PokemonsViewModelProtocol {
     func selectPokemonItemAt(indexPath: IndexPath) {
         guard pokemons.value.indices.contains(indexPath.row) else { return }
         let item = pokemons.value[indexPath.row]
-        navigationDelegate.gotoPokemonDetails(pokemon_name: item.name!)
+        navigationDelegate.gotoPokemonDetail(pokemon_name: item.name!)
     }
 }
-
-

@@ -19,6 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().isTranslucent = true
         UITabBar.appearance().tintColor = .white
         UITabBar.appearance().barTintColor = .pokemonMain
+        UITabBar.appearance().unselectedItemTintColor = .black
+        
         return true
     }
 

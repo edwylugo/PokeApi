@@ -9,7 +9,9 @@ import Foundation
 import UIKit
 
 
-protocol PokemonDetailsNavigation: AnyObject {}
+protocol PokemonDetailsNavigation: AnyObject {
+
+}
 
 protocol PokemonDetailsViewModelProtocol {
     var pokeDetail: Observable<PokemonDetail?> { get }
@@ -37,8 +39,10 @@ struct PokemonDetailsViewModel: PokemonDetailsViewModelProtocol {
     func fetchPokemonDetails() {
         PokeApiService.shared.fetchPokemonInfo(name: pokemon_name) { (poke) in
             if let poke = poke {
-                self.pokeDetail.value = poke
-                self.pokeStats.value.append(contentsOf: poke.stats!)
+                DispatchQueue.main.async {
+                    self.pokeDetail.value = poke
+                    self.pokeStats.value.append(contentsOf: poke.stats!)
+                }
             }
         }
     }

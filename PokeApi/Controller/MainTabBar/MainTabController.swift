@@ -26,7 +26,12 @@ class MainTabController: UITabBarController {
         let viewModelPokemons = PokemonsViewModel(navigationDelegate: self)
         let pokemons = PokemonsController(viewModel: viewModelPokemons)
         let nav1 = templateNavigationController(image: UIImage(systemName: "house"), rootViewController: pokemons, title: "Pokémons")
-        viewControllers = [nav1]
+        
+        
+        let search = PokemonsSearchController()
+        let nav2 = templateNavigationController(image: UIImage(systemName: "magnifyingglass"), rootViewController: search, title: "Search Pokémons")
+        
+        viewControllers = [nav1, nav2]
     }
     
     func templateNavigationController(image: UIImage?, rootViewController: UIViewController, title: String?) -> UINavigationController {
@@ -46,4 +51,16 @@ extension MainTabController: PokemonsNavigationProtocol {
     }
 }
 
-extension MainTabController: PokemonDetailsNavigation {}
+extension MainTabController: PokemonDetailsNavigation {
+
+}
+
+extension MainTabController: ResultSearchNavigationProtocol {
+    func gotoPokemonDetail(pokemon_name: String) {
+        let viewModelPokemonDetails = PokemonDetailsViewModel(navigationDelegate: self, pokemon_name: pokemon_name)
+        let details = PokemonDetailsController(viewModel: viewModelPokemonDetails)
+        push(details)
+    }
+    
+    
+}

@@ -18,7 +18,7 @@ class PokeProfileHeader: UICollectionReusableView {
     weak var delegate: PokeProfileHeaderDelegate?
     var id: String? = ""
     
-    private lazy var containerView: UIView = {
+    lazy var containerView: UIView = {
         let view = UIView()
         view.backgroundColor = .pokemonMain
         view.addSubview(backButton)
@@ -36,7 +36,7 @@ class PokeProfileHeader: UICollectionReusableView {
         return button
     }()
     
-    private lazy var profileImageView: UIImageView = {
+    lazy var profileImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFit
         iv.clipsToBounds = true

@@ -41,10 +41,18 @@ class PokemonDetailsController: UICollectionViewController {
         setupBindings()
     }
     
+
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.navigationBar.barStyle = .black
         navigationController?.navigationBar.isHidden = true
+        navigationController?.tabBarController?.tabBar.isHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.navigationBar.isHidden = false
+        navigationController?.tabBarController?.tabBar.isHidden = false
     }
     
     //MARK: - API
@@ -62,10 +70,6 @@ class PokemonDetailsController: UICollectionViewController {
         collectionView.backgroundColor = .clear
         
         collectionView?.backgroundView = imageView
-        
-        
-        
-        
         
     }
     
@@ -98,9 +102,19 @@ extension PokemonDetailsController {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerIdentifier, for: indexPath) as! PokeProfileHeader
 
         
-        if let pokemonInfo = viewModel.pokeDetail.value {
-            header.setupCell(with: pokemonInfo)
+        if viewModel.pokeStats.value.count != 0 {
+            if let pokemonInfo = viewModel.pokeDetail.value {
+                header.setupCell(with: pokemonInfo)
+                header.profileImageView.isHidden = false
+                header.statsTitle.text = "Stats"
+            }
+        } else {
+            header.profileImageView.isHidden = true
+            header.statsTitle.text = "Pokémon not found... try Again"
         }
+        
+        
+        
     
         header.delegate = self
         
