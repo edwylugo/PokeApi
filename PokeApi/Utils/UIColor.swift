@@ -4,7 +4,6 @@
 //
 //  Created by Edwy Lugo on 25/06/21.
 //
-
 import UIKit
 
 extension UIColor {
@@ -15,4 +14,13 @@ extension UIColor {
     
     static let pokemonMain = UIColor.rgb(red: 227, green: 53, blue: 12)
     static let pokemonLabel = UIColor.rgb(red: 49, green: 49, blue: 49)
+    
+    static func random() -> UIColor {
+           return UIColor(
+              red:   .random(),
+              green: .random(),
+              blue:  .random(),
+              alpha: 1.0
+           )
+       }
 }

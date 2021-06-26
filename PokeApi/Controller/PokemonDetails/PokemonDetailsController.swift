@@ -8,13 +8,21 @@
 import UIKit
 import Kingfisher
 
-private let reuseIdentifier = "PokeCell"
+private let reuseIdentifier = "PokeStatsCell"
 private let headerIdentifier = "PokeProfileHeader"
 
 class PokemonDetailsController: UICollectionViewController {
     
     //MARK: - Properties
     private var viewModel: PokemonDetailsViewModelProtocol
+
+    var imageView: UIImageView = {
+        let iv = UIImageView()
+        iv.contentMode = .scaleAspectFill
+        iv.clipsToBounds = true
+        iv.image = #imageLiteral(resourceName: "background")
+        return iv
+    }()
     
     //MARK: - Lifecycle
     init(viewModel: PokemonDetailsViewModelProtocol) {
@@ -46,10 +54,19 @@ class PokemonDetailsController: UICollectionViewController {
     //MARK: - Helpers
     
     func configureCollectionView() {
+        
         collectionView.backgroundColor = .white
         collectionView.contentInsetAdjustmentBehavior = .never
         collectionView.register(PokeProfileHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerIdentifier)
-        collectionView.register(PokeCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        collectionView.register(PokeStatsCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        collectionView.backgroundColor = .clear
+        
+        collectionView?.backgroundView = imageView
+        
+        
+        
+        
+        
     }
     
     func setupBindings() {
@@ -65,11 +82,12 @@ class PokemonDetailsController: UICollectionViewController {
 // MARK: - UICollectionViewDataSource
 extension PokemonDetailsController {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
+        return viewModel.pokeStats.value.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! PokeCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! PokeStatsCell
+        cell.setupCell(with: viewModel.pokeStats.value[indexPath.row])
         return cell
     }
 }
@@ -81,11 +99,9 @@ extension PokemonDetailsController {
 
         
         if let pokemonInfo = viewModel.pokeDetail.value {
-            let pokemonId = indexPath.row + 1
-            header.setupCell(with: pokemonInfo, pokemonId: pokemonId)
+            header.setupCell(with: pokemonInfo)
         }
-        
-        
+    
         header.delegate = self
         
         return header
@@ -97,11 +113,11 @@ extension PokemonDetailsController {
 extension PokemonDetailsController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: view.frame.width, height: 350)
+        return CGSize(width: view.frame.width, height: 250)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: 120)
+        return CGSize(width: view.frame.width, height: 30)
     }
 }
 

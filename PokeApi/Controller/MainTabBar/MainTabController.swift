@@ -11,7 +11,6 @@ class MainTabController: UITabBarController {
     //MARK: - Properties
     
     //MARK: - Lifecycle
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewControllers()
@@ -23,7 +22,6 @@ class MainTabController: UITabBarController {
     
     //MARK: - Helpers
     func configureViewControllers() {
-        
         ///Pokemons
         let viewModelPokemons = PokemonsViewModel(navigationDelegate: self)
         let pokemons = PokemonsController(viewModel: viewModelPokemons)

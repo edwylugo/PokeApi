@@ -50,8 +50,6 @@ class PokeCell: UICollectionViewCell {
         label.textAlignment = .center
         return label
     }()
-
-    var id: String? = ""
     
     //MARK: - Lifecycle
     override init(frame: CGRect) {
@@ -75,18 +73,12 @@ class PokeCell: UICollectionViewCell {
     
     //MARK: - Helpers
     func setupCell(with pokemon: PokemonData, pokemonId: Int) {
-        if pokemonId < 10 {
-            id = "00\(pokemonId)"
-        } else if pokemonId < 100 {
-            id = "0\(pokemonId)"
-        } else {
-            id = "\(pokemonId)"
-        }
+        let id = Utilities.changeID(pokemonId: pokemonId)
     
-        let url = URL(string: "\(URLIMAGE)\(id ?? "")\(EXTENSION)" )
+        let url = URL(string: "\(URLIMAGE)\(id)\(EXTENSION)" )
         pokeImageView.kf.setImage(with: url)
     
-        idLabel.text = "\(id ?? "")"
+        idLabel.text = id
         pokeNameLabel.text = "\(pokemon.name?.description ?? "")"
     }
     

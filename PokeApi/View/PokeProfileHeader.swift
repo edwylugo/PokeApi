@@ -16,6 +16,7 @@ class PokeProfileHeader: UICollectionReusableView {
     
     // MARK: - Properties
     weak var delegate: PokeProfileHeaderDelegate?
+    var id: String? = ""
     
     private lazy var containerView: UIView = {
         let view = UIView()
@@ -24,6 +25,7 @@ class PokeProfileHeader: UICollectionReusableView {
         backButton.anchor(top: view.topAnchor, left: view.leftAnchor,
                           paddingTop: 42, paddingLeft: 16)
         backButton.setDimension(width: 30, height: 30)
+
         return view
     }()
     
@@ -39,43 +41,28 @@ class PokeProfileHeader: UICollectionReusableView {
         iv.contentMode = .scaleAspectFit
         iv.clipsToBounds = true
         iv.backgroundColor = .systemGroupedBackground
-        iv.layer.borderColor = UIColor.white.cgColor
-        iv.layer.borderWidth = 4
+        iv.layer.borderColor = UIColor.black.cgColor
+        iv.layer.borderWidth = 5
         return iv
     }()
     
-    private let fullnameLabel: UILabel = {
+    private let pokeNameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 20)
-        label.text = "fullname"
         return label
     }()
     
-    private let usernameLabel: UILabel = {
+    private let idLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 16)
+        label.font = UIFont.boldSystemFont(ofSize: 24)
         label.textColor = .lightGray
-        label.text = "username"
         return label
     }()
     
-    private let bioLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 16)
-        label.numberOfLines = 3
-        label.text = "This is user bio that will span more than one line for text purposes"
-        return label
-    }()
-    
-    private let followingLabel: UILabel = {
-        let label = UILabel()
-        label.text = "0 Following"
-        return label
-    }()
-    
-    private let followersLabel: UILabel = {
-        let label = UILabel()
-        label.text = "2 Followers"
+    var statsTitle: UILabel =  {
+       let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 14)
+        label.text = "Stats:"
         return label
     }()
     
@@ -83,16 +70,15 @@ class PokeProfileHeader: UICollectionReusableView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        
         addSubview(containerView)
         containerView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, height: 108)
-        
+    
         addSubview(profileImageView)
         profileImageView.anchor(top: containerView.bottomAnchor, left: leftAnchor, paddingTop: -24, paddingLeft: 8)
         profileImageView.setDimension(width: 80, height: 80)
         profileImageView.layer.cornerRadius = 80 / 2
         
-        let userDetailsStack = UIStackView(arrangedSubviews: [fullnameLabel, usernameLabel, bioLabel])
+        let userDetailsStack = UIStackView(arrangedSubviews: [pokeNameLabel, idLabel, statsTitle])
         userDetailsStack.axis = .vertical
         userDetailsStack.distribution = .fillProportionally
         userDetailsStack.spacing = 4
@@ -101,17 +87,15 @@ class PokeProfileHeader: UICollectionReusableView {
         userDetailsStack.anchor(top: profileImageView.bottomAnchor, left: leftAnchor,
         right: rightAnchor, paddingTop: 8, paddingLeft: 12, paddingRight: 12)
         
-        let followStack = UIStackView(arrangedSubviews: [followingLabel, followersLabel])
-        followStack.axis = .horizontal
-        followStack.spacing = 8
-        followStack.distribution = .fillEqually
-        addSubview(followStack)
-        followStack.anchor(top: userDetailsStack.bottomAnchor, left: leftAnchor, paddingTop: 8, paddingLeft: 12)
-        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        containerView.addBottomLine(color: .black, height: 5)
     }
     
     // MARK: - Selectors
@@ -120,9 +104,11 @@ class PokeProfileHeader: UICollectionReusableView {
     }
     
     //MARK: - Helpers
-    func setupCell(with pokemon: PokemonDetail, pokemonId: Int) {
-        let url = URL(string: "\(URLIMAGEMAIN)\(pokemonId)\(EXTENSION)" )
+    func setupCell(with pokemon: PokemonDetail) {
+        let url = URL(string: "\(URLIMAGEMAIN)\(pokemon.id!)\(EXTENSION)" )
         profileImageView.kf.setImage(with: url)
+        pokeNameLabel.text = pokemon.name
+        idLabel.text = "#\(pokemon.id!)"
     }
 
 }

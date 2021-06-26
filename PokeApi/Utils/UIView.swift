@@ -7,6 +7,8 @@
 
 import UIKit
 
+
+
 extension UIView {
     
     func anchor(top: NSLayoutYAxisAnchor? = nil,
@@ -51,6 +53,16 @@ extension UIView {
         widthAnchor.constraint(equalToConstant: width).isActive = true
         heightAnchor.constraint(equalToConstant: height).isActive = true
     }
+    
+    
+    
+    func addBottomLine(color: UIColor, height: CGFloat) {
+        let bottomView = UIView(frame: CGRect(x: 0, y: self.frame.height - 1, width: self.frame.width, height: height))
+        bottomView.translatesAutoresizingMaskIntoConstraints = false
+        bottomView.autoresizingMask = .flexibleWidth
+        bottomView.backgroundColor = color
+        self.addSubview(bottomView)
+     }
     
 }
 
